@@ -67,6 +67,8 @@ public: // Type definitions
         Read_Lock(Read_Lock && other) : m_rw_lock(other.m_rw_lock) { other.m_rw_lock = nullptr; }
 
     private:
+        friend class RW_Lock;
+
         Read_Lock(RW_Lock & rw_lock) : m_rw_lock(&rw_lock) { m_rw_lock->begin_read(); }
 
         RW_Lock * m_rw_lock;
@@ -81,6 +83,8 @@ public: // Type definitions
         ~Write_Lock(){ if (m_rw_lock) m_rw_lock->end_write(); }
 
     private:
+        friend class RW_Lock;
+
         Write_Lock(RW_Lock & rw_lock) : m_rw_lock(&rw_lock) { m_rw_lock->begin_write(); }
 
         RW_Lock * m_rw_lock;
